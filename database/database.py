@@ -53,3 +53,5 @@ pene= cursor.fetchone()[0]
 cursor.execute(f'INSERT INTO muestras (identificador, numero, expediente, material, peso, fecha_recepcion, fecha_fin, id_empresa) VALUES ("sad", "27" , "23,658 Q ", "Polvo de lodo", "2", "2022-01-01", "2022-01-10",{pene})')
 cursor.close()
 mydb.close()
+
+print("pene")
