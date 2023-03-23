@@ -10,7 +10,7 @@ mydb = mysql.connector.connect(
 
 cursor= mydb.cursor()
 
-cursor.execute("DROP TABLE muestras")
+#cursor.execute("DROP TABLE muestras")
 
 
 
@@ -46,13 +46,41 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS resultados (
                valor VARCHAR(50))''')
 
 
-cursor.execute("SELECT id FROM empresa WHERE empresa = 'sadim'")
-pene= cursor.fetchone()[0]
 
 
-cursor.execute(f'INSERT INTO muestras (identificador, numero, expediente, material, peso, fecha_recepcion, fecha_fin, id_empresa) VALUES ("sad", "27" , "23,658 Q ", "Polvo de lodo", "2", "2022-01-01", "2022-01-10",{pene})')
+#cursor.execute('INSERT INTO empresa (empresa) VALUES ("urike")')
+#cursor.execute("SELECT id FROM empresa WHERE empresa = 'urike'")
+#pene= cursor.fetchone()[0]
+#cursor.execute(f'INSERT INTO muestras (identificador, numero, expediente, material, peso, fecha_recepcion, id_empresa) VALUES ("URK", "1" , "23,141 Q ", "granalla", "3", "2022-03-21", {pene})')
+
+#cursor.execute('INSERT INTO procedencias (procedencia) VALUES ("barcelona")')
+#cursor.execute('INSERT INTO procedencias (procedencia) VALUES ("galicia")')
+#cursor.execute('INSERT INTO ensayos (ensayos,unidad) VALUES ("humedad","%")')
+#cursor.execute('INSERT INTO ensayos (ensayos,unidad) VALUES ("granulometría","micra")')
+#cursor.execute('INSERT INTO ensayos (ensayos,unidad) VALUES ("emi","j")')
+#cursor.execute('INSERT INTO ensayos (ensayos,unidad) VALUES ("tmic","k")')
+#cursor.execute('INSERT INTO resultados (id_ensayos, id_muestras, valor) VALUES ("1","1","2")')
+#cursor.execute('INSERT INTO resultados (id_ensayos, id_muestras, valor) VALUES ("2","1","S/V")')
+#cursor.execute('INSERT INTO resultados (id_ensayos, id_muestras, valor) VALUES ("3","1","25")')
+#cursor.execute('INSERT INTO resultados (id_ensayos, id_muestras, valor) VALUES ("4","1","340")')
+#cursor.execute('INSERT INTO resultados (id_ensayos, id_muestras, valor) VALUES ("1","2","0.5")')
+#cursor.execute('INSERT INTO resultados (id_ensayos, id_muestras, valor) VALUES ("2","2","<500")')
+#cursor.execute('INSERT INTO resultados (id_ensayos, id_muestras, valor) VALUES ("4","2","330")')
+#cursor.execute('INSERT INTO resultados (id_ensayos, id_muestras, valor) VALUES ("2","3","S/V")')
+#cursor.execute('INSERT INTO resultados (id_ensayos, id_muestras, valor) VALUES ("3","3","1")')
+#cursor.execute('INSERT INTO resultados (id_ensayos, id_muestras, valor) VALUES ("4","3","350")') 
+
+#cursor.execute('UPDATE muestras SET id_procedencia = "1" WHERE id = 1')
+#cursor.execute('UPDATE muestras SET id_procedencia = "1" WHERE id = 2')
+#cursor.execute('UPDATE muestras SET id_procedencia = "2" WHERE id = 3') 
+
+cursor.execute("SELECT procedencias.procedencia FROM muestras JOIN procedencias ON muestras.id_procedencia=procedencias.id WHERE muestras.id=1")
+pene = cursor.fetchone()[0]
+print(pene)
+cursor.execute("SELECT resultados.valor FROM muestras JOIN resultados ON muestras.id_procedencia=procedencias.id WHERE muestras.id=1")
+pene2= cursor.fetchone()[0]
+print(pene2)
 cursor.close()
 mydb.close()
 
-print("pene")
-print("nepe")
+#Sacar la procedencia de sad-27, el valor de emi de urk-1 y todos los ensayos de sad-26, con unidades.
