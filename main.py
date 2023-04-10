@@ -1,3 +1,3 @@
 from database import database
 consulta=database.Consulta()
-consulta.identificador('sad','27')
+consulta.identificador(identificador='sad',numero='27',id_empresa='6')
