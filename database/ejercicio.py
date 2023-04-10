@@ -11,7 +11,7 @@ mydb = mysql.connector.connect(
 cursor= mydb.cursor()
 
 # si quieres eliminar una tabla usa el codigo de debajo
-#cursor.execute("DROP TABLE tmicapa")
+#cursor.execute("DROP TABLE resultados")
 
 
 
@@ -55,8 +55,8 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS ensayos (
                FOREIGN KEY(id_equipo5) REFERENCES equipos(id))''')
 cursor.execute('''CREATE TABLE IF NOT EXISTS tmicapa_datos (
                id INTEGER PRIMARY KEY AUTO_INCREMENT,
-               id_muestras VARCHAR(50),
-               FOREIGN KEY(id_muestras) REFERENCES muestras(id),
+               id_resultados VARCHAR(50),
+               FOREIGN KEY(id_resultados) REFERENCES resultados(id),
                temperatura VARCHAR(50),
                temperatura_de_plato VARCHAR(50),
                temperatura_maxima VARCHAR(50),
@@ -85,15 +85,15 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS resultados (
 
 #cursor.execute('INSERT INTO procedencias (procedencia) VALUES ("barcelona")')
 #cursor.execute('INSERT INTO procedencias (procedencia) VALUES ("galicia")')
-cursor.execute('INSERT INTO resultados (id_muestras,id_ensayos,fecha,humedad,temperatura,resultado) VALUES ("1","1","10/4/2023","11%","24","340º")')
-cursor.execute('INSERT INTO resultados (id_muestras,id_ensayos,fecha,humedad,temperatura,resultado) VALUES ("2","1","11/4/2023","12%","25","380º")')
-cursor.execute('INSERT INTO resultados (id_muestras,id_ensayos,fecha,humedad,temperatura,resultado) VALUES ("3","1","12/4/2023","13%","23","440º")')
-cursor.execute('INSERT INTO resultados (id_muestras,id_ensayos,fecha,humedad,temperatura,resultado) VALUES ("4","1","13/4/2023","14%","26","480º")')
-cursor.execute('INSERT INTO tmicapa_datos (id_muestras,temperatura,temperatura_de_plato,temperatura_maxima,resultado_ignicion,tiempo,observaciones) VALUES ("1","20","100", "60", "si","10","ninguna")')
-cursor.execute('INSERT INTO tmicapa_datos (id_muestras,temperatura,temperatura_de_plato,temperatura_maxima,resultado_ignicion,tiempo,observaciones) VALUES ("2","21","200", "70", "no","20","alguna")')
-cursor.execute('INSERT INTO tmicapa_datos (id_muestras,temperatura,temperatura_de_plato,temperatura_maxima,resultado_ignicion,tiempo,observaciones) VALUES ("3","22","300", "80", "si","30","una")')
-cursor.execute('INSERT INTO tmicapa_datos (id_muestras,temperatura,temperatura_de_plato,temperatura_maxima,resultado_ignicion,tiempo,observaciones) VALUES ("4","23","400", "90", "no","40","niuna")')
-cursor.execute('INSERT INTO ensayos (ensayo, normativa, procedimiento) VALUES ("tmicapa","UNE-EN ISO/IEC 80079-20-2:2016","POENS 551")')
+#cursor.execute('INSERT INTO resultados (id_muestras,id_ensayos,fecha,humedad,temperatura,resultado) VALUES ("1","1","10/4/2023","11%","24","340º")')
+#cursor.execute('INSERT INTO resultados (id_muestras,id_ensayos,fecha,humedad,temperatura,resultado) VALUES ("2","1","11/4/2023","12%","25","380º")')
+#cursor.execute('INSERT INTO resultados (id_muestras,id_ensayos,fecha,humedad,temperatura,resultado) VALUES ("3","1","12/4/2023","13%","23","440º")')
+#cursor.execute('INSERT INTO resultados (id_muestras,id_ensayos,fecha,humedad,temperatura,resultado) VALUES ("4","1","13/4/2023","14%","26","480º")')
+#cursor.execute('INSERT INTO tmicapa_datos (id_resultados,temperatura,temperatura_de_plato,temperatura_maxima,resultado_ignicion,tiempo,observaciones) VALUES ("1","20","120", "60", "si","30","ninguna")')
+#cursor.execute('INSERT INTO tmicapa_datos (id_resultados,temperatura,temperatura_de_plato,temperatura_maxima,resultado_ignicion,tiempo,observaciones) VALUES ("2","21","200", "70", "no","20","alguna")')
+#cursor.execute('INSERT INTO tmicapa_datos (id_resultados,temperatura,temperatura_de_plato,temperatura_maxima,resultado_ignicion,tiempo,observaciones) VALUES ("3","22","300", "80", "si","30","una")')
+#cursor.execute('INSERT INTO tmicapa_datos (id_resultados,temperatura,temperatura_de_plato,temperatura_maxima,resultado_ignicion,tiempo,observaciones) VALUES ("4","23","400", "90", "no","40","niuna")')
+#cursor.execute('INSERT INTO ensayos (ensayo, normativa, procedimiento) VALUES ("tmicapa","UNE-EN ISO/IEC 80079-20-2:2016","POENS 551")')
 #cursor.execute('INSERT INTO resultados (id_ensayos, id_muestras, valor) VALUES ("2","2","<500")')
 #cursor.execute('INSERT INTO resultados (id_ensayos, id_muestras, valor) VALUES ("4","2","330")')
 #cursor.execute('INSERT INTO resultados (id_ensayos, id_muestras, valor) VALUES ("2","3","S/V")')
@@ -112,14 +112,22 @@ procedenciasad = cursor.fetchone()[0]
 print(procedenciasad)
 
 
-#cursor.execute("SELECT id FROM muestras WHERE identificador = 'sad' AND numero = '27'")
-#busqueda= cursor.fetchone()[0]
+cursor.execute("SELECT id FROM muestras WHERE identificador = 'sad' AND numero = '26'")
+busqueda= cursor.fetchone()[0]
+cursor.execute("SELECT id FROM ensayos WHERE ensayo = 'tmicapa'")
+busqueda2 = cursor.fetchone()[0]
+cursor.execute(f"SELECT id FROM resultados WHERE id_muestras = '{busqueda}' AND  id_ensayos = '{busqueda2}'")
+busqueda3= cursor.fetchone()[0]
+cursor.execute(f"SELECT * FROM tmicapa_datos WHERE id_resultados='{busqueda3}'")
+output=cursor.fetchall()
+print(output)
+
 #cursor.execute("SELECT resultados.valor FROM muestras JOIN resultados ON muestras.id=resultados.id_muestras WHERE muestras.id=3 AND resultados.id_ensayos=3")
 #emi= cursor.fetchone()[0] 
 #print(emi)
 #cursor.execute("SELECT resultados.valor FROM muestras JOIN resultados ON muestras.id=resultados.id_muestras WHERE muestras.id=1")
-#cursor.execute("SELECT id FROM muestras WHERE identificador = 'sad' AND numero = '27'")
-#busqueda2 = cursor.fetchone()[0]
+
+
 #cursor.execute("SELECT * FROM muestras WHERE id='{}'".format(busqueda2))
 #todo= cursor.fetchall()
 #print(todo)
