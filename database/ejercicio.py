@@ -53,6 +53,17 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS ensayos (
                FOREIGN KEY(id_equipo4) REFERENCES equipos(id),
                id_equipo5 VARCHAR(50),
                FOREIGN KEY(id_equipo5) REFERENCES equipos(id))''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS resultados (
+               id INTEGER PRIMARY KEY AUTO_INCREMENT,
+               id_muestras VARCHAR(50),
+               FOREIGN KEY(id_muestras) REFERENCES muestras(id),
+               id_ensayos VARCHAR(50),
+               FOREIGN KEY(id_ensayos) REFERENCES ensayos(id),
+               fecha VARCHAR(50),
+               humedad VARCHAR(50),
+               temperatura VARCHAR(50),
+               resultado VARCHAR(50)
+               realizado VARCHAR(50))''')   
 cursor.execute('''CREATE TABLE IF NOT EXISTS tmicapa_datos (
                id INTEGER PRIMARY KEY AUTO_INCREMENT,
                id_resultados VARCHAR(50),
@@ -63,16 +74,137 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS tmicapa_datos (
                resultado_ignicion VARCHAR(50),
                tiempo VARCHAR(50),
                observaciones VARCHAR(50))''')
-cursor.execute('''CREATE TABLE IF NOT EXISTS resultados (
+cursor.execute('''CREATE TABLE IF NOT EXISTS tminube_datos (
                id INTEGER PRIMARY KEY AUTO_INCREMENT,
-               id_muestras VARCHAR(50),
-               FOREIGN KEY(id_muestras) REFERENCES muestras(id),
-               id_ensayos VARCHAR(50),
-               FOREIGN KEY(id_ensayos) REFERENCES ensayos(id),
-               fecha VARCHAR(50),
-               humedad VARCHAR(50),
+               id_resultados VARCHAR(50),
+               FOREIGN KEY(id_resultados) REFERENCES resultados(id),
                temperatura VARCHAR(50),
-               resultado VARCHAR(50))''')   
+               peso VARCHAR(50),
+               presion VARCHAR(50),
+               resultado VARCHAR(50),
+               observaciones VARCHAR(50))''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS emi_datos (
+               id INTEGER PRIMARY KEY AUTO_INCREMENT,
+               id_resultados VARCHAR(50),
+               FOREIGN KEY(id_resultados) REFERENCES resultados(id),
+               concentracion VARCHAR(50),
+               energia VARCHAR(50),
+               retardo VARCHAR(50),
+               resultado VARCHAR(50),
+               observaciones VARCHAR(50))''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS severidad_datos (
+               id INTEGER PRIMARY KEY AUTO_INCREMENT,
+               id_resultados VARCHAR(50),
+               FOREIGN KEY(id_resultados) REFERENCES resultados(id),
+               concentracion VARCHAR(50),
+               pm_serie1 VARCHAR(50),
+               pm_serie2 VARCHAR(50),
+               pm_serie3 VARCHAR(50),
+               dpdt_serie1 VARCHAR(50),
+               dpdt_serie2 VARCHAR(50),
+               dpdt_serie3 VARCHAR(50))''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS rec_datos (
+               id INTEGER PRIMARY KEY AUTO_INCREMENT,
+               id_resultados VARCHAR(50),
+               FOREIGN KEY(id_resultados) REFERENCES resultados(id),
+               tension VARCHAR(50),
+               duracion VARCHAR(50),
+               resistencia VARCHAR(50),
+               observaciones VARCHAR(50))''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS tev_datos (
+               id INTEGER PRIMARY KEY AUTO_INCREMENT,
+               id_resultados VARCHAR(50),
+               FOREIGN KEY(id_resultados) REFERENCES resultados(id),
+               temperatura_referencia VARCHAR(50),
+               temperatura_ensayo VARCHAR(50),
+               temperatura_maxima VARCHAR(50),
+               vapores_visibles VARCHAR(50),
+               inflama VARCHAR(50),
+               observaciones VARCHAR(50))''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS clo_datos (
+               id INTEGER PRIMARY KEY AUTO_INCREMENT,
+               id_resultados VARCHAR(50),
+               FOREIGN KEY(id_resultados) REFERENCES resultados(id),
+               concentracion_polvo VARCHAR(50),
+               concentracion_oxigeno VARCHAR(50),
+               peso_equivalente VARCHAR(50),
+               pm VARCHAR(50),
+               dpdt VARCHAR(50),
+               observaciones VARCHAR(50))''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS onu_n1_datos (
+               id INTEGER PRIMARY KEY AUTO_INCREMENT,
+               id_resultados VARCHAR(50),
+               FOREIGN KEY(id_resultados) REFERENCES resultados(id),
+               numero_prueba VARCHAR(50),
+               t3 VARCHAR(50),
+               rebasa VARCHAR(50)''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS onu_n2_datos (
+               id INTEGER PRIMARY KEY AUTO_INCREMENT,
+               id_resultados VARCHAR(50),
+               FOREIGN KEY(id_resultados) REFERENCES resultados(id),
+               numero_prueba VARCHAR(50),
+               inflamacion VARCHAR(50),
+               observaciones VARCHAR(50))''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS onu_n4_datos (
+               id INTEGER PRIMARY KEY AUTO_INCREMENT,
+               id_resultados VARCHAR(50),
+               FOREIGN KEY(id_resultados) REFERENCES resultados(id),
+               temperatura_estufa VARCHAR(50),
+               celda VARCHAR(50),
+               temperatura_maxima VARCHAR(50))''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS onu_o1_datos (
+               id INTEGER PRIMARY KEY AUTO_INCREMENT,
+               id_resultados VARCHAR(50),
+               FOREIGN KEY(id_resultados) REFERENCES resultados(id),
+               mezcla VARCHAR(50),
+               t1 VARCHAR(50),
+               t2 VARCHAR(50),
+               t3 VARCHAR(50),
+               t4 VARCHAR(50),
+               t5 VARCHAR(50))''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS humedad_datos (
+               id INTEGER PRIMARY KEY AUTO_INCREMENT,
+               id_resultados VARCHAR(50),
+               FOREIGN KEY(id_resultados) REFERENCES resultados(id),
+               humedad VARCHAR(50))''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS secado_datos (
+               id INTEGER PRIMARY KEY AUTO_INCREMENT,
+               id_resultados VARCHAR(50),
+               FOREIGN KEY(id_resultados) REFERENCES resultados(id),
+               secado VARCHAR(50),
+               estufa VARCHAR(50),
+               tiempo VARCHAR(50))''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS tamizado_datos (
+               id INTEGER PRIMARY KEY AUTO_INCREMENT,
+               id_resultados VARCHAR(50),
+               FOREIGN KEY(id_resultados) REFERENCES resultados(id),
+               tamizado VARCHAR(50),
+               equipo VARCHAR(50),
+               codigo VARCHAR(50),
+               tamaño VARCHAR(50))''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS molienda_datos (
+               id INTEGER PRIMARY KEY AUTO_INCREMENT,
+               id_resultados VARCHAR(50),
+               FOREIGN KEY(id_resultados) REFERENCES resultados(id),
+               molienda VARCHAR(50),
+               equipo VARCHAR(50),
+               tiempo VARCHAR(50))''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS lie_datos (
+               id INTEGER PRIMARY KEY AUTO_INCREMENT,
+               id_resultados VARCHAR(50),
+               FOREIGN KEY(id_resultados) REFERENCES resultados(id),
+               concentracion VARCHAR(50),
+               peso_equivalente VARCHAR(50),
+               pex VARCHAR(50),
+               pm VARCHAR(50),
+               dpdt VARCHAR(50),
+               observaciones VARCHAR(50))''')
+cursor.execute('''CREATE TABLE IF NOT EXISTS clase_combustion_datos (
+               id INTEGER PRIMARY KEY AUTO_INCREMENT,
+               id_resultados VARCHAR(50),
+               FOREIGN KEY(id_resultados) REFERENCES resultados(id),
+               hilera_polvo VARCHAR(50),
+               tiempo VARCHAR(50))''')
 
 
 
