@@ -11,14 +11,14 @@ mydb = mysql.connector.connect(
 cursor= mydb.cursor()
 
 # si quieres eliminar una tabla usa el codigo de debajo
-#cursor.execute("DROP TABLE resultados")
+#cursor.execute("DROP TABLE empresa")
 
 
 
 cursor.execute('''CREATE TABLE IF NOT EXISTS procedencias (
                id INTEGER PRIMARY KEY AUTO_INCREMENT,
                procedencia VARCHAR(50))''')
-cursor.execute('''CREATE TABLE IF NOT EXISTS empresa (
+cursor.execute('''CREATE TABLE IF NOT EXISTS empresas (
                id INTEGER PRIMARY KEY AUTO_INCREMENT,
                empresa VARCHAR(50),
                subsidiaria VARCHAR(50))''')
