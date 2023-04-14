@@ -14,19 +14,60 @@ cursor= mydb.cursor()
 
 class databases():
     def filter(self,**kwargs):
-        consulta="SELECT id FROM muestras WHERE "
-        i = 0
-        claves = ', '.join([clave for clave in kwargs if clave not in ('identificador', 'numero')])
-        print(claves)
+        identificador=''
+        numero = ''
         for clave,valor in kwargs.items():
-            if clave in ('identificador','numero','expediente','material','peso','id_procedencia','fecha_recepcion','fecha_fin','id_empresa'):
+            if clave in ['identificador','numero','expediente','material','peso','fecha_recepcion','fecha_fin']:
                 nombre_tabla = 'muestras'
+                cursor.execute(f"SELECT id FROM {nombre_tabla} WHERE {clave}='{valor}'")
+                idm = cursor.fetchall()
+                idm = [n[0] for n in idm]
+                val = []
+                for n in idm:
+                    cursor.execute(f"SELECT {clave} FROM {nombre_tabla} WHERE id = '{n}'")  
+                    val.append(cursor.fetchone()[0])
+                
             elif clave == 'empresa':
                 nombre_tabla = 'empresas'
-            elif clave in ('ensayo','normativa','procedimiento','id_equipo1','id_equipo2','id_equipo3','id_equipo4','id_equipo5'):
+                cursor.execute(f"SELECT id FROM {nombre_tabla} WHERE {clave}='{valor}'")
+                idempresa = [n[0] for n in cursor.fetchall()]
+                cursor.execute(f"SELECT id FROM muestras WHERE id_empresa = '{idempresa}'")
+                idm = [n[0] for n in cursor.fetchall()]
+                for n in idm:
+                    cursor.execute(f"SELECT identificador,numero FROM muestras WHERE id = '{n}'")
+                    iden_num = [n[0] for n in cursor.fetchall()]
+                    iden_num = {iden_num[0]:iden_num[1]}
+                    
+            elif clave in ['ensayo','normativa','procedimiento']:
                 nombre_tabla = 'ensayos'
             elif clave == 'procedencia':
                 nombre_tabla = 'procedencias'
+            elif clave in ['fecha','temperatura','humedad','resultado','realizado']:
+                nombre_tabla = 'resultados'
+                cursor.execute(f"SELECT id FROM {nombre_tabla} WHERE {clave}='{valor}'")
+                id=cursor.fetchone()[0] 
+                cursor.execute(f"SELECT {clave} FROM {nombre_tabla} WHERE id = '{id}'")  
+                val = cursor.fetchone()[0]
+                cursor.execute(f"SELECT muestras.id FROM muestras INNER JOIN resultados ON muestras.id=resultados.id_muestras WHERE resultados.id_ensayos = {id}")
+                idm = cursor.fetchone()[0]
+            elif clave == 'equipo':
+                nombre_tabla = 'equipos'
+            else:
+                return('No existe esta columna')
+            cursor.execute(f"SELECT identificador,numero FROM muestras WHERE id='{idm}'")
+            
+        
+            
+            cursor.execute(f"SELECT id FROM {nombre_tabla} WHERE {clave}='{valor}'")
+            id=cursor.fetchone()[0] 
+            cursor.execute(f"SELECT {clave} FROM {nombre_tabla} WHERE id = '{id}'")  
+            a = cursor.fetchone()[0]
+            cursor.execute(f"SELECT muestras.id FROM muestras INNER JOIN resultados ON muestras.id=resultados.id_muestras WHERE resultados.id_ensayos = {id}")
+
+            
+            consulta="SELECT id FROM muestras WHERE "
+            claves = ', '.join([clave for clave in kwargs if clave not in ('identificador', 'numero')]) 
+            print(claves)
             
             if i==0:
                 consulta += f"{clave}='{valor}'"

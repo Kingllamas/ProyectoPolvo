@@ -263,7 +263,8 @@ print(output)
 #cursor.execute("SELECT * FROM muestras WHERE id='{}'".format(busqueda2))
 #todo= cursor.fetchall()
 #print(todo)
-
+cursor.execute("SELECT DISTINCT TABLE_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE identificador LIKE '27'")
+print(cursor.fetchall())
 
 
 cursor.close()
