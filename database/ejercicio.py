@@ -13,8 +13,12 @@ cursor= mydb.cursor()
 # si quieres eliminar una tabla usa el codigo de debajo
 #cursor.execute("DROP TABLE empresa")
 
-
-
+cursor.execute('''CREATE TABLE IF NOT EXISTS usuarios (
+               id INTEGER PRIMARY KEY AUTO_INCREMENT,
+               nombre VARCHAR(50),
+               email VARCHAR(50),
+               contraseña VARCHAR(50),
+               siglas VARCHAR(50))''') 
 cursor.execute('''CREATE TABLE IF NOT EXISTS procedencias (
                id INTEGER PRIMARY KEY AUTO_INCREMENT,
                procedencia VARCHAR(50))''')
@@ -62,7 +66,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS resultados (
                fecha VARCHAR(50),
                humedad VARCHAR(50),
                temperatura VARCHAR(50),
-               resultado VARCHAR(50)
+               resultado VARCHAR(50),
                realizado VARCHAR(50))''')   
 cursor.execute('''CREATE TABLE IF NOT EXISTS tmicapa_datos (
                id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -137,7 +141,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS onu_n1_datos (
                FOREIGN KEY(id_resultados) REFERENCES resultados(id),
                numero_prueba VARCHAR(50),
                t3 VARCHAR(50),
-               rebasa VARCHAR(50)''')
+               rebasa VARCHAR(50))''')
 cursor.execute('''CREATE TABLE IF NOT EXISTS onu_n2_datos (
                id INTEGER PRIMARY KEY AUTO_INCREMENT,
                id_resultados VARCHAR(50),
@@ -213,7 +217,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS clase_combustion_datos (
 #cursor.execute('INSERT INTO empresa (empresa) VALUES ("urike")')
 #cursor.execute("SELECT id FROM empresa WHERE empresa = 'urike'")
 #pene= cursor.fetchone()[0]
-#cursor.execute(f'INSERT INTO muestras (identificador, numero, expediente, material, peso, fecha_recepcion, id_empresa) VALUES ("URK", "1" , "23,141 Q ", "granalla", "3", "2022-03-21", {pene})')
+#cursor.execute(f'INSERT INTO muestras (identificador, numero, expediente, material, peso, fecha_recepcion, id_empresa) VALUES ("URK", "1" , "23,141 Q ", "granalla", "3", "2022-03-21", 2)')
 
 #cursor.execute('INSERT INTO procedencias (procedencia) VALUES ("barcelona")')
 #cursor.execute('INSERT INTO procedencias (procedencia) VALUES ("galicia")')
@@ -226,33 +230,48 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS clase_combustion_datos (
 #cursor.execute('INSERT INTO tmicapa_datos (id_resultados,temperatura,temperatura_de_plato,temperatura_maxima,resultado_ignicion,tiempo,observaciones) VALUES ("3","22","300", "80", "si","30","una")')
 #cursor.execute('INSERT INTO tmicapa_datos (id_resultados,temperatura,temperatura_de_plato,temperatura_maxima,resultado_ignicion,tiempo,observaciones) VALUES ("4","23","400", "90", "no","40","niuna")')
 #cursor.execute('INSERT INTO ensayos (ensayo, normativa, procedimiento) VALUES ("tmicapa","UNE-EN ISO/IEC 80079-20-2:2016","POENS 551")')
-#cursor.execute('INSERT INTO resultados (id_ensayos, id_muestras, valor) VALUES ("2","2","<500")')
+#cursor.execute('INSERT INTO empresas (empresa, subsidiaria) VALUES ("sadim","rouselt")') 
 #cursor.execute('INSERT INTO resultados (id_ensayos, id_muestras, valor) VALUES ("4","2","330")')
 #cursor.execute('INSERT INTO resultados (id_ensayos, id_muestras, valor) VALUES ("2","3","S/V")')
 #cursor.execute('INSERT INTO resultados (id_ensayos, id_muestras, valor) VALUES ("3","3","1")')
 #cursor.execute('INSERT INTO resultados (id_ensayos, id_muestras, valor) VALUES ("4","3","350")') 
 
-#cursor.execute('UPDATE muestras SET id_procedencia = "1" WHERE id = 1')
+#cursor.execute('UPDATE muestras SET id_empresa = "1" WHERE id = 1')
 #cursor.execute('UPDATE muestras SET id_procedencia = "1" WHERE id = 2')
 #cursor.execute('UPDATE muestras SET id_procedencia = "2" WHERE id = 3') 
+cursor.execute('''SELECT muestras.identificador, muestras.numero, ensayos.ensayo, resultados.resultado, ensayos.normativa
+        FROM muestras
+        JOIN resultados ON resultados.id_muestras = muestras.id
+        JOIN ensayos ON resultados.id_ensayos = ensayos.id
+        JOIN empresas ON muestras.id_empresa = empresas.id
+        JOIN procedencias ON muestras.id_procedencia = procedencias.id
+        WHERE resultados.resultado>340 ''')
+output=cursor.fetchall() 
+for n in output:
+  print(n)
 
 
-cursor.execute("SELECT id FROM muestras WHERE identificador = 'sad' AND numero = '27'")
-busqueda= cursor.fetchone()[0]
-cursor.execute("SELECT procedencias.procedencia FROM muestras JOIN procedencias ON muestras.id_procedencia=procedencias.id WHERE muestras.id= '{}'".format(busqueda))
-procedenciasad = cursor.fetchone()[0]
-print(procedenciasad)
 
 
-cursor.execute("SELECT id FROM muestras WHERE identificador = 'sad' AND numero = '26'")
-busqueda= cursor.fetchone()[0]
-cursor.execute("SELECT id FROM ensayos WHERE ensayo = 'tmicapa'")
-busqueda2 = cursor.fetchone()[0]
-cursor.execute(f"SELECT id FROM resultados WHERE id_muestras = '{busqueda}' AND  id_ensayos = '{busqueda2}'")
-busqueda3= cursor.fetchone()[0]
-cursor.execute(f"SELECT * FROM tmicapa_datos WHERE id_resultados='{busqueda3}'")
-output=cursor.fetchall()
-print(output)
+
+
+
+#cursor.execute("SELECT id FROM muestras WHERE identificador = 'sad' AND numero = '27'")
+#busqueda= cursor.fetchone()[0]
+#cursor.execute("SELECT procedencias.procedencia FROM muestras JOIN procedencias ON muestras.id_procedencia=procedencias.id WHERE muestras.id= '{}'".format(busqueda))
+#procedenciasad = cursor.fetchone()[0]
+#print(procedenciasad)
+
+
+#cursor.execute("SELECT id FROM muestras WHERE identificador = 'sad' AND numero = '26'")
+#busqueda= cursor.fetchone()[0]
+#cursor.execute("SELECT id FROM ensayos WHERE ensayo = 'tmicapa'")
+#busqueda2 = cursor.fetchone()[0]
+#cursor.execute(f"SELECT id FROM resultados WHERE id_muestras = '{busqueda}' AND  id_ensayos = '{busqueda2}'")
+#busqueda3= cursor.fetchone()[0]
+#cursor.execute(f"SELECT * FROM tmicapa_datos WHERE id_resultados='{busqueda3}'")
+#output=cursor.fetchall()
+#print(output)
 
 #cursor.execute("SELECT resultados.valor FROM muestras JOIN resultados ON muestras.id=resultados.id_muestras WHERE muestras.id=3 AND resultados.id_ensayos=3")
 #emi= cursor.fetchone()[0] 
@@ -263,8 +282,8 @@ print(output)
 #cursor.execute("SELECT * FROM muestras WHERE id='{}'".format(busqueda2))
 #todo= cursor.fetchall()
 #print(todo)
-cursor.execute("SELECT DISTINCT TABLE_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE identificador LIKE '27'")
-print(cursor.fetchall())
+#cursor.execute("SELECT DISTINCT TABLE_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE identificador LIKE '27'")
+#print(cursor.fetchall())
 
 
 cursor.close()
