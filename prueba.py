@@ -20,9 +20,9 @@ class Database():
         if estado==0:
             seleccion =  f"ensayos.{nombre}, resultados.resultado"
             filtros = f"{nombre} {operador} '{valor}' "
-
-
-
+        else: 
+            seleccion =  seleccion+ f"ensayos.{nombre}, resultados.resultado"
+            filtros = seleccion + f"{nombre} {operador} '{valor}' "
 
     def numero(valor):
         if estado==0:

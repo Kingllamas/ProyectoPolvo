@@ -255,7 +255,6 @@ for n in output:
 
 
 
-
 #cursor.execute("SELECT id FROM muestras WHERE identificador = 'sad' AND numero = '27'")
 #busqueda= cursor.fetchone()[0]
 #cursor.execute("SELECT procedencias.procedencia FROM muestras JOIN procedencias ON muestras.id_procedencia=procedencias.id WHERE muestras.id= '{}'".format(busqueda))
