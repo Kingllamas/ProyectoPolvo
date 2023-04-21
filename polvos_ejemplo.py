@@ -5,6 +5,7 @@ from usuariotk_paquete.gui_app import Frame, barra_menu
 def main():
     root = tk.Tk()       #creamos la ventana principal, mediante la clase tk que crea una interfaz
     root.title('Polvos')
+    root.geometry("1280x720")
 
     #si quisieramos meter un logo:
     #root.iconbitmap('templates/logo.jpg') carpeta, nombre_archivo.jpg
@@ -18,5 +19,8 @@ def main():
     app = Frame(root=root)
 
     app.mainloop()      #esto es para que se ejecute continuamente hasta que se cierre la ventana principal
-if __name__ =='__main__':
+
+
+if __name__=="__main__":
     main()
+
