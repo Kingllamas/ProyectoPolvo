@@ -1,5 +1,0 @@
-para la busqueda con filtros hacemos un desplegable que abra todas las opciones de filtro y
-cuando seleccionas el filtro abre un pop up, que sera con distintos campos para cada filtro,
-por ejemplo para expediente se abrira simplemente un cuadro de texto donde escribir el numero de expediente,
-para fecha con distintos campos en los que seleccionar mes, año, día... etc para cada filtro
-
