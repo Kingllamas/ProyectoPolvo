@@ -22,20 +22,20 @@ class Login():
     def login(self):  
         imagen = Image.open(self.rutaAbsoluta + "\\..\\..\\images\\ondito.jpg")
         imagent= ImageTk.PhotoImage(imagen)
-        ctk_image = ctk.CTkImage()
-        ctk_image.image = imagen
-        fondo=ctk.CTkLabel(master=self.root,image=ctk_image,text='')
+        
+        self.fondo=ctk.CTkLabel(master=self.root,image=imagent,text='')
+        
        
-
+        """
         self.mAcceso=ctk.CTkFrame(master=fondo,corner_radius=20,fg_color='transparent',border_color="green") 
         self.mAcceso.place(relx=0.5,rely=0.5,anchor=tk.CENTER) 
         fondo.pack()
 
-        return(self.root)  
+        return(self.root)"""  
         
-        
-        """    #Marcos
-        self.marco_superior= ctk.CTkFrame(self.mAcceso,width= self.ancho_pantalla/4, height= self.alto_pantalla/4)
+        self.mAcceso=ctk.CTkFrame(master=self.fondo,corner_radius=15)
+            #Marcos
+        """self.marco_superior= ctk.CTkFrame(self.mAcceso,width= self.ancho_pantalla/4, height= self.alto_pantalla/4)
         self.marco_superior.pack()
         self.marco_central0= ctk.CTkFrame(self.mAcceso,width= self.ancho_pantalla/4, height= self.alto_pantalla/4, )
         self.marco_central0.pack()
@@ -44,14 +44,14 @@ class Login():
         self.marco_central2= ctk.CTkFrame(self.mAcceso,width= self.ancho_pantalla/4, height= self.alto_pantalla/4)
         self.marco_central2.pack()
         self.marco_inferior= ctk.CTkFrame(self.mAcceso,width= self.ancho_pantalla/4, height= self.alto_pantalla/4)
-        self.marco_inferior.pack()
+        self.marco_inferior.pack()"""
             #Crear imagen
-        self.logo= Image.open(self.rutaAbsoluta + "\..\..\images\Logo1.jpg")
+        """self.logo= Image.open(self.rutaAbsoluta + "\..\..\images\Logo1.jpg")
         self.logo=self.logo.resize((int(self.alto_pantalla/4),int(self.alto_pantalla/4)), Image.ANTIALIAS)
-        self.img= PhotoImage(self.logo)
+        self.img= tk.PhotoImage(self.logo)
         pil_imagen =Image.open(self.img)
         imagen = ctk.CTkImage(light_image=self.logo, dark_image=self.logo)
-        self.lbl_img= ctk.CTkLabel(self.mAcceso,image=imagen,text='') 
+        self.lbl_img= ctk.CTkLabel(self.mAcceso,image=imagen,text='') """
         #self.lbl_img.pack(anchor= 'center') 
 
             #self.Titulo
@@ -101,7 +101,8 @@ class Login():
         self.titulo= ctk.CTkLabel(self.mAcceso,text= "www.lom.upm.es", font= ("Calibri",12), fg_color= "#191970")
         self.titulo.pack(pady=10)
 
-        self.mAcceso.pack(anchor='center')
+        self.mAcceso.place(relx=0.5,rely=0.5,anchor=tk.CENTER)
+        self.fondo.pack()
 
         return(self.root)
         
@@ -112,7 +113,7 @@ class Login():
     def botonPresionado (self):
         return(self.usuario.get(),self.password.get())
         
-"""
+
 
     
 
