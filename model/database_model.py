@@ -16,6 +16,12 @@ filtros = ""
 
 class Database():
 
+    def controlAcceso(self, user, password):
+        password= password
+        cursor.execute(f"SELECT * FROM usuarios WHERE usuarios.nombre = '{user}' and usuarios.contraseña= '{password}'")
+        lista = cursor.fetchall()
+        return lista
+
     def ensayo(nombre,operador,valor):
         if estado==0:
             seleccion =  f"ensayos.{nombre}, resultados.resultado"
@@ -112,6 +118,7 @@ class Database():
         pass
         #cursor.execute(consulta)
 
+    
 
 
 
@@ -121,8 +128,7 @@ class Database():
 
 
 
-
-baseDatos= Database()
+"""baseDatos= Database()
 
 #Filtro | id | SAD 
 consultaMuestra= baseDatos.muestra(filtro= "SAD")
@@ -132,7 +138,7 @@ nfiltro = 0
 
 for i in  nfiltros:
     if (nfiltro >= nfiltros):
-        nfiltro += 1
+        nfiltro += 1"""
 
 
 
