@@ -1,23 +1,30 @@
 import customtkinter as ctk
+
 import tkinter as tk
-from tkinter import messagebox
+
 from PIL import Image, ImageTk
+
 import os
+
+from tkinter import messagebox
+
 import ctypes
 
 class Login():
-    def __init__(self,view):
+
+    def __init__(self,view,root):
+
         self.view=view
-        ctk.set_appearance_mode("system")
-        ctk.set_default_color_theme("blue")
-        self.root=ctk.CTk()
+
+        self.root= root
+
         self.rutaAbsoluta= os.path.abspath(__file__)
+
         user = ctypes.windll.user32
         user.SetProcessDPIAware()
         self.ancho_pantalla = user.GetSystemMetrics(0)
         self.alto_pantalla = user.GetSystemMetrics(1)
-        self.root.geometry(f"{self.ancho_pantalla}x{self.alto_pantalla}+0+0") #tamaño+posicionX+posicionY
-        self.root.title("POLVOS")    
+       
 
  
 
@@ -63,7 +70,7 @@ class Login():
         self.entrar.place(relx= 0.5, y = 350, anchor= tk.CENTER)
  
 
-        return(self.root)
+       
 
        
 
