@@ -22,6 +22,38 @@ class Database():
         lista = cursor.fetchall()
         return lista
 
+    def tareas_pendientes(self):
+        cursor.execute('''SELECT DISTINCT muestras.id, muestras.identificador, muestras.numero
+                FROM muestras
+                JOIN resultados ON resultados.id_muestras = muestras.id
+                JOIN ensayos ON resultados.id_ensayos = ensayos.id
+                JOIN empresas ON muestras.id_empresa = empresas.id
+                JOIN procedencias ON muestras.id_procedencia = procedencias.id
+                WHERE muestras.realizado=FALSE ORDER BY muestras.fecha_recepcion ASC''')
+        output=cursor.fetchall()
+
+        ids = [n[0] for n in output]
+        identificadores = [n[1] for n in output]
+        numeros = [n[2] for n in output]
+
+
+        resultados=[]
+        for n in ids:
+            dicc={}
+            cursor.execute(f'''SELECT ensayos.ensayo, resultados.resultado
+                FROM muestras
+                JOIN resultados ON resultados.id_muestras = muestras.id
+                JOIN ensayos ON resultados.id_ensayos = ensayos.id
+                JOIN empresas ON muestras.id_empresa = empresas.id
+                JOIN procedencias ON muestras.id_procedencia = procedencias.id
+                WHERE muestras.id = {n} ''')
+            consulta=cursor.fetchall()
+            for n in consulta:
+                dicc[n[0]]=n[1]    #dicc = {idioma : ingles, pais: inglaterra}   dicc[pais]=inglaterra
+            resultados.append(dicc)
+        return ids,identificadores,numeros,resultados
+
+
     def ensayo(nombre,operador,valor):
         if estado==0:
             seleccion =  f"ensayos.{nombre}, resultados.resultado"

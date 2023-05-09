@@ -11,7 +11,7 @@ mydb = mysql.connector.connect(
 cursor= mydb.cursor()
 
 # si quieres eliminar una tabla usa el codigo de debajo
-#cursor.execute("DROP TABLE empresa")
+#cursor.execute("DROP TABLE resultados")
 
 cursor.execute('''CREATE TABLE IF NOT EXISTS usuarios (
                id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -221,10 +221,10 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS clase_combustion_datos (
 
 #cursor.execute('INSERT INTO procedencias (procedencia) VALUES ("barcelona")')
 #cursor.execute('INSERT INTO procedencias (procedencia) VALUES ("galicia")')
-#cursor.execute('INSERT INTO resultados (id_muestras,id_ensayos,fecha,humedad,temperatura,resultado) VALUES ("1","1","10/4/2023","11%","24","340º")')
-#cursor.execute('INSERT INTO resultados (id_muestras,id_ensayos,fecha,humedad,temperatura,resultado) VALUES ("2","1","11/4/2023","12%","25","380º")')
-#cursor.execute('INSERT INTO resultados (id_muestras,id_ensayos,fecha,humedad,temperatura,resultado) VALUES ("3","1","12/4/2023","13%","23","440º")')
-#cursor.execute('INSERT INTO resultados (id_muestras,id_ensayos,fecha,humedad,temperatura,resultado) VALUES ("4","1","13/4/2023","14%","26","480º")')
+#cursor.execute('INSERT INTO resultados (id_muestras,id_ensayos,fecha,humedad,temperatura,resultado,realizado) VALUES ("2","2","10/4/2023","11%","24","380º","yes")')
+#cursor.execute('INSERT INTO resultados (id_muestras,id_ensayos,fecha,humedad,temperatura,resultado,realizado) VALUES ("2","1","11/4/2023","12%","25","380º","no")')
+#cursor.execute('INSERT INTO resultados (id_muestras,id_ensayos,fecha,humedad,temperatura,resultado,realizado) VALUES ("3","1","12/4/2023","13%","23","440º","no")')
+#cursor.execute('INSERT INTO resultados (id_muestras,id_ensayos,fecha,humedad,temperatura,resultado,realizado) VALUES ("4","1","13/4/2023","14%","26","480º","")')
 #cursor.execute('INSERT INTO tmicapa_datos (id_resultados,temperatura,temperatura_de_plato,temperatura_maxima,resultado_ignicion,tiempo,observaciones) VALUES ("1","20","120", "60", "si","30","ninguna")')
 #cursor.execute('INSERT INTO tmicapa_datos (id_resultados,temperatura,temperatura_de_plato,temperatura_maxima,resultado_ignicion,tiempo,observaciones) VALUES ("2","21","200", "70", "no","20","alguna")')
 #cursor.execute('INSERT INTO tmicapa_datos (id_resultados,temperatura,temperatura_de_plato,temperatura_maxima,resultado_ignicion,tiempo,observaciones) VALUES ("3","22","300", "80", "si","30","una")')
@@ -239,7 +239,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS clase_combustion_datos (
 #cursor.execute('UPDATE muestras SET id_empresa = "1" WHERE id = 1')
 #cursor.execute('UPDATE muestras SET id_procedencia = "1" WHERE id = 2')
 #cursor.execute('UPDATE muestras SET id_procedencia = "2" WHERE id = 3') 
-cursor.execute('''SELECT muestras.identificador, muestras.numero, ensayos.ensayo, resultados.resultado, ensayos.normativa
+"""cursor.execute('''SELECT muestras.identificador, muestras.numero, ensayos.ensayo, resultados.resultado, ensayos.normativa
         FROM muestras
         JOIN resultados ON resultados.id_muestras = muestras.id
         JOIN ensayos ON resultados.id_ensayos = ensayos.id
@@ -248,7 +248,50 @@ cursor.execute('''SELECT muestras.identificador, muestras.numero, ensayos.ensayo
         WHERE resultados.resultado>340 ''')
 output=cursor.fetchall() 
 for n in output:
-  print(n)
+  print(n)"""
+
+
+
+cursor.execute('''SELECT DISTINCT muestras.id, muestras.identificador, muestras.numero
+        FROM muestras
+        JOIN resultados ON resultados.id_muestras = muestras.id
+        JOIN ensayos ON resultados.id_ensayos = ensayos.id
+        JOIN empresas ON muestras.id_empresa = empresas.id
+        JOIN procedencias ON muestras.id_procedencia = procedencias.id
+        WHERE muestras.realizado=FALSE ORDER BY muestras.fecha_recepcion ASC''')
+output=cursor.fetchall()
+
+ids = [n[0] for n in output]
+identificadores = [n[1] for n in output]
+numeros = [n[2] for n in output]
+
+
+resultados=[]
+for n in ids:
+    dicc={}
+    cursor.execute(f'''SELECT ensayos.ensayo, resultados.resultado
+        FROM muestras
+        JOIN resultados ON resultados.id_muestras = muestras.id
+        JOIN ensayos ON resultados.id_ensayos = ensayos.id
+        JOIN empresas ON muestras.id_empresa = empresas.id
+        JOIN procedencias ON muestras.id_procedencia = procedencias.id
+        WHERE muestras.id = {n} ''')
+    consulta=cursor.fetchall()
+    print(consulta)
+    for n in consulta:
+        dicc[n[0]]=n[1]
+    resultados.append(dicc)
+
+    
+    
+print(ids,identificadores,numeros,resultados)
+
+
+
+
+
+    
+
 
 
 

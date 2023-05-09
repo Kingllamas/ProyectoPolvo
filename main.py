@@ -1,19 +1,10 @@
 import customtkinter as ctk
 from views.login_view import Login_view
 from views.ensayos_view import Ensayos_view
-import mysql.connector
+
 
 import ctypes
 
-mydb = mysql.connector.connect(
-  host="localhost",
-  user="root",
-  password="",
-  database="polvos"
-)
-
-
-cursor= mydb.cursor()
 ctk.set_appearance_mode("system")
 ctk.set_default_color_theme("blue")
 root=ctk.CTk()

@@ -49,23 +49,27 @@ class MenuEnsayos():
         style.layout("mystyle.Treeview", [('mystyle.Treeview.treearea', {'sticky': 'nswe'})]) # Remove the borders
         self.frame_tabla=ctk.CTkFrame(self.frame_inicio,border_width=100)
         self.frame_tabla.pack(expand=True,fill=BOTH)
-        self.scroll=ctk.CTkScrollbar(self.frame_tabla,orientation='vertical')
-        self.scroll.pack(side=RIGHT,fill="y")
-        self.tabla=ttk.Treeview(self.frame_tabla,columns=("Identificador","Numero","Tmin","Tmic","LIE","EMI","EXPLO","Hum","Granulo"),
-                           yscrollcommand=self.scroll.set,style='mystyle.Treeview',show='headings')
+        self.scrolly=ctk.CTkScrollbar(self.frame_tabla,orientation='vertical')
+        self.scrolly.pack(side=RIGHT,fill="y")
+        self.scrollx=ctk.CTkScrollbar(self.frame_tabla,orientation='horizontal')
+        self.scrollx.pack(side=BOTTOM,fill="x")
+        self.tabla=ttk.Treeview(self.frame_tabla,columns=("Identificador","Numero","tminube","tmicapa","LIE","EMI","EXPLO","Hum","Granulo","TAI","N1","N2","N4","Pmax","dp/dt","kmax","TG/DSC","CLO","O1","REC","TEV"),
+                           yscrollcommand=self.scrolly.set,show='headings',style='mystyle.Treeview',xscrollcommand=self.scrollx.set)
         #tabla.place(x=0,y=240,relwidth=1,relheight=1)
-        self.scroll.configure(command=self.tabla.yview)
+        self.scrolly.configure(command=self.tabla.yview)
+        self.scrollx.configure(command=self.tabla.xview)
         self.tabla.tag_configure('Treeview',font=('Montserrat,12'))
-        for n in ["Identificador","Numero","Tmin","Tmic","LIE","EMI","EXPLO","Hum","Granulo"]:
+        for n in ["Identificador","Numero","tminube","tmicapa","LIE","EMI","EXPLO","Hum","Granulo","TAI","N1","N2","N4","Pmax","dp/dt","kmax","TG/DSC","CLO","O1","REC","TEV"]:
             self.tabla.heading(n,text=n)
-            #self.tabla.column(n,width=120)
+            self.tabla.column(n,width=180)
         #tabla.grid(row=1,column=0,sticky='nsew')
         self.tabla.pack(expand=True,fill=BOTH,padx=5,pady=5)
         self.frame_inicio.pack(expand=True,fill=BOTH)
         
         #style=ttk.Style('Treeview',background=)
-        #for i in range(10):
-            #self.tabla.insert(parent="",index=1,values=('hola','que','tal'))
+        """for i in range(2):
+            n=self.tabla.insert(parent="",text=i,index=1,values=('','','hola',i))
+            self.tabla.set(n,"LIE","pene")"""
         #for i in range(20):
             #self.tabla.insert(parent="",index=1,values=('adios','que','tal'))
 
@@ -88,6 +92,14 @@ class MenuEnsayos():
     def ocultar(self):
         for frame in self.frames:
             frame.pack_forget()
+            
+    def insertar_tabla(self,ids,identificadores,numeros,resultados):
+
+        for i,valor in enumerate(ids):
+            item = self.tabla.insert(parent="",text=valor,index=1,values=(identificadores[i],numeros[i]))
+            for clave,valor in resultados[i].items():
+                self.tabla.set(item,clave,valor)
+
         
         
 

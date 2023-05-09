@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 19-04-2023 a las 10:17:12
+-- Tiempo de generación: 09-05-2023 a las 13:04:19
 -- Versión del servidor: 8.0.31
 -- Versión de PHP: 8.0.26
 
@@ -121,7 +121,7 @@ CREATE TABLE IF NOT EXISTS `ensayos` (
   KEY `id_equipo3` (`id_equipo3`),
   KEY `id_equipo4` (`id_equipo4`),
   KEY `id_equipo5` (`id_equipo5`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `ensayos`
@@ -129,7 +129,8 @@ CREATE TABLE IF NOT EXISTS `ensayos` (
 
 INSERT INTO `ensayos` (`id`, `ensayo`, `normativa`, `procedimiento`, `id_equipo1`, `id_equipo2`, `id_equipo3`, `id_equipo4`, `id_equipo5`) VALUES
 (1, 'tmicapa', 'UNE-EN ISO/IEC 80079-20-2:2016', 'POENS 551', NULL, NULL, NULL, NULL, NULL),
-(2, 'tminube', 'UNE-EN ISO/IEC 80080-20-2:2016', 'POENS 552', NULL, NULL, NULL, NULL, NULL);
+(2, 'tminube', 'UNE-EN ISO/IEC 80080-20-2:2016', 'POENS 552', NULL, NULL, NULL, NULL, NULL),
+(3, 'EMI', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -214,6 +215,7 @@ CREATE TABLE IF NOT EXISTS `muestras` (
   `fecha_recepcion` varchar(50) DEFAULT NULL,
   `fecha_fin` varchar(50) DEFAULT NULL,
   `id_empresa` int DEFAULT NULL,
+  `realizado` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `id_procedencia` (`id_procedencia`),
   KEY `id_empresa` (`id_empresa`)
@@ -223,10 +225,10 @@ CREATE TABLE IF NOT EXISTS `muestras` (
 -- Volcado de datos para la tabla `muestras`
 --
 
-INSERT INTO `muestras` (`id`, `identificador`, `numero`, `expediente`, `material`, `peso`, `id_procedencia`, `fecha_recepcion`, `fecha_fin`, `id_empresa`) VALUES
-(1, 'sad', '26', '23,658 Q ', 'Polvo de lodo', '2', '1', '2022-03-06', '2021-03-21', 1),
-(2, 'sad', '27', '23,658 Q ', 'barro', '4', '1', '2020-03-06', '2024-03-21', 1),
-(3, 'URK', '1', '23,141 Q ', 'granalla', '3', '2', '2022-03-21', '2023-02-02', 2);
+INSERT INTO `muestras` (`id`, `identificador`, `numero`, `expediente`, `material`, `peso`, `id_procedencia`, `fecha_recepcion`, `fecha_fin`, `id_empresa`, `realizado`) VALUES
+(1, 'sad', '26', '23,658 Q ', 'Polvo de lodo', '2', '1', '2022-03-06', '2021-03-21', 1, 'No'),
+(2, 'sad', '27', '23,658 Q ', 'barro', '4', '1', '2020-03-06', '2024-03-21', 1, 'No'),
+(3, 'URK', '1', '23,141 Q ', 'granalla', '3', '2', '2022-03-21', '2023-02-02', 2, 'yes');
 
 -- --------------------------------------------------------
 
@@ -363,10 +365,13 @@ CREATE TABLE IF NOT EXISTS `resultados` (
 --
 
 INSERT INTO `resultados` (`id`, `id_muestras`, `id_ensayos`, `fecha`, `humedad`, `temperatura`, `resultado`) VALUES
-(1, '1', '1', '10/4/2023', '11%', '24', '340'),
-(4, '3', '1', '10/3/2023', '11%', '24', '300'),
-(3, '2', '1', '10/3/2023', '11%', '24', '320'),
-(2, '1', '2', '11/4/2023', '11%', '24', '380');
+(1, '1', '1', '10/4/2023', '11%', '24', '340º'),
+(2, '2', '1', '11/4/2023', '12%', '25', '380º'),
+(3, '3', '1', '12/4/2023', '13%', '23', '440º'),
+(4, '4', '1', '13/4/2023', '14%', '26', '480º'),
+(5, '1', '2', '10/4/2023', '11%', '24', '380º'),
+(6, '2', '2', '10/4/2023', '11%', '24', '380º'),
+(7, '1', '3', '11/4/2023', '11%', '24', '100');
 
 -- --------------------------------------------------------
 
@@ -508,7 +513,15 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `contraseña` varchar(50) DEFAULT NULL,
   `siglas` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Volcado de datos para la tabla `usuarios`
+--
+
+INSERT INTO `usuarios` (`id`, `nombre`, `email`, `contraseña`, `siglas`) VALUES
+(1, 'sergio', NULL, 'pene', NULL),
+(2, 'miguel', NULL, 'pene', NULL);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
